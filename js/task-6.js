@@ -1,52 +1,45 @@
 function getRandomHexColor() {
-  return `#${Math.floor(Math.random() * 16777215)
-    .toString(16)
-    .padStart(6, 0)}`;
+return `#${Math.floor(Math.random() * 16777215)
+.toString(16)
+.padStart(6, 0)}`;
 }
-const input = document.querySelector("#boxCountInput");
-const createButton = document.querySelector("#controls button[data-create]");
-const destroyButton = document.querySelector("#controls button[data-destroy]");
-const boxesContainer = document.getElementById("boxes");
+const boxes = document.querySelector('#boxes');
+const buttonCreate = document.querySelector('[data-create]');
+const buttonDestroy = document.querySelector('[data-destroy]');
+const input = document.querySelector('input');
 
+buttonCreate.addEventListener('click', handleCreate);
+buttonDestroy.addEventListener('click', destroyBoxes);
 
+function handleCreate() {
+const inputValue = Number(input.value);
 
-createButton.addEventListener("click", () => {
-  const amount = parseInt(input.value);
-
-  if (amount >= 1 && amount <= 100) {
-    createBoxes(amount);
-    input.value = "";
-  } else {
-    alert("Please enter a number between 1 and 100.");
-  }
-});
-
-
-
-destroyButton.addEventListener("click", () => {
-  destroyBoxes();
-});
+if (inputValue >= 1 && inputValue <= 100) {
+createBoxes(inputValue);
+input.value = '';
+}
+}
 
 function createBoxes(amount) {
-  boxesContainer.innerHTML = ""; 
-  const fragment = document.createDocumentFragment(); 
+boxes.innerHTML = '';
 
-  let size = 30; 
+const boxCollection = [];
 
-  for (let i = 0; i < amount; i++) {
-    const box = document.createElement("div"); 
-    box.classList.add("box"); 
-    box.style.width = `${size}px`; 
-    box.style.height = `${size}px`; 
-    box.style.backgroundColor = getRandomHexColor(); 
-    fragment.appendChild(box); 
-    size += 10; 
-  }
-
-  boxesContainer.appendChild(fragment);
+let sizeBox = 30;
+{
+for (let i = 0; i < amount; i += 1) {
+const box = document.createElement('div');
+box.style.width = `${sizeBox}px`;
+box.style.height = `${sizeBox}px`;
+box.style.backgroundColor = getRandomHexColor();
+boxCollection.push(box);
+sizeBox += 10;
 }
 
+boxes.append(...boxCollection);
+}
+}
 
 function destroyBoxes() {
-  boxesContainer.innerHTML = ""; 
+boxes.innerHTML = '';
 }
